@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   return (
     <>
-      <main className="px-3">
+      <main className="px-3 container">
         <h1 className="text-center my-3">Formulario</h1>
         <Formulario />
       </main>
