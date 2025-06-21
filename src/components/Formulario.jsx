@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const Formulario = () => {
   const [dato, setDato] = useState({
@@ -17,23 +18,31 @@ const Formulario = () => {
     const form = e.currentTarget;
 
     if (form.checkValidity() === false) {
-      e.preventDefault();
+      // e.preventDefault();
       e.stopPropagation();
+     
+      Swal.fire({
+        icon: "error",
+        title: "Datos incorrectos!",
+        text: "Volvé a ingresar los datos",
+      });
+    } else {
+      Swal.fire({
+        title: "Datos guardados correctamente",
+        text: `${dato.nombre}, ${dato.apellido}, ${dato.dni}, ${dato.email}`,
+        icon: "success",
+        draggable: true,
+      });
     }
-    Swal.fire({
-      title: "Datos guardados correctamente",
-      icon: "success",
-      draggable: true,
-    });
 
-    setDatos([...datosCorrectos, dato]);
+    setDatosCorrectos([...datosCorrectos, dato]);
     setDato({
       nombre: "",
       apellido: "",
       dni: "",
       email: "",
     });
-    setValidated(true);
+    setValidated(false);
   };
 
   return (
