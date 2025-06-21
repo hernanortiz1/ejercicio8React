@@ -1,16 +1,38 @@
 import { useState } from "react";
-import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 
 const Formulario = () => {
+  const [dato, setDato] = useState({
+    nombre: "",
+    apellido: "",
+    dni: "",
+    email: "",
+  });
+  const [datosCorrectos, setDatosCorrectos] = useState([]);
   const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    const form = e.currentTarget;
+
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    Swal.fire({
+      title: "Datos guardados correctamente",
+      icon: "success",
+      draggable: true,
+    });
+
+    setDatos([...datosCorrectos, dato]);
+    setDato({
+      nombre: "",
+      apellido: "",
+      dni: "",
+      email: "",
+    });
     setValidated(true);
   };
 
@@ -24,9 +46,14 @@ const Formulario = () => {
               required
               type="text"
               placeholder="Ingrese nombre"
+              value={dato.nombre}
+              name="nombre"
+              onChange={(e) =>
+                setDato({ ...dato, [e.target.name]: e.target.value })
+              }
             />
             <Form.Control.Feedback>Dato correcto</Form.Control.Feedback>
-             <Form.Control.Feedback type="invalid">
+            <Form.Control.Feedback type="invalid">
               Dato incorrecto
             </Form.Control.Feedback>
           </Form.Group>
@@ -36,20 +63,32 @@ const Formulario = () => {
               required
               type="text"
               placeholder="Ingrese apellido"
-              
+              value={dato.apellido}
+              name="apellido"
+              onChange={(e) =>
+                setDato({ ...dato, [e.target.name]: e.target.value })
+              }
             />
             <Form.Control.Feedback>Dato correcto</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
               Dato incorrecto
             </Form.Control.Feedback>
           </Form.Group>
-          
         </Row>
-        
+
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="validationCustom03">
             <Form.Label>DNI *</Form.Label>
-            <Form.Control type="text" placeholder="Ingrese DNI" required />
+            <Form.Control
+              type="text"
+              placeholder="Ingrese DNI"
+              required
+              value={dato.dni}
+              name="dni"
+              onChange={(e) =>
+                setDato({ ...dato, [e.target.name]: e.target.value })
+              }
+            />
             <Form.Control.Feedback>Dato correcto</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
               Dato incorrecto
@@ -57,21 +96,31 @@ const Formulario = () => {
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="validationCustom04">
             <Form.Label>Email *</Form.Label>
-            <Form.Control type="email" placeholder="Ingrese email" required />
+            <Form.Control
+              type="email"
+              placeholder="Ingrese email"
+              required
+              value={dato.email}
+              name="email"
+              onChange={(e) =>
+                setDato({ ...dato, [e.target.name]: e.target.value })
+              }
+            />
             <Form.Control.Feedback>Dato correcto</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
               Dato invalido
             </Form.Control.Feedback>
           </Form.Group>
-        <Form.Text className="text-muted mt-3">
-          (Campos obligatorios *)
-        </Form.Text>
+          <Form.Text className="text-muted mt-3">
+            (Campos obligatorios *)
+          </Form.Text>
         </Row>
-        
+
         <div className="d-grid gap-2">
-           <Button type="submit" variant="primary" size="lg" >Enviar</Button>
+          <Button type="submit" variant="primary" size="lg">
+            Enviar
+          </Button>
         </div>
-       
       </Form>
     </section>
   );
