@@ -31,7 +31,7 @@ const Formulario = () => {
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="validationCustom02">
-            <Form.Label>Apellido</Form.Label>
+            <Form.Label>Apellido *</Form.Label>
             <Form.Control
               required
               type="text"
@@ -56,15 +56,22 @@ const Formulario = () => {
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="validationCustom04">
-            <Form.Label>Email</Form.Label>
+            <Form.Label>Email *</Form.Label>
             <Form.Control type="email" placeholder="Ingrese email" required />
             <Form.Control.Feedback>Dato correcto</Form.Control.Feedback>
             <Form.Control.Feedback type="invalid">
               Dato invalido
             </Form.Control.Feedback>
           </Form.Group>
+        <Form.Text className="text-muted mt-3">
+          (Campos obligatorios *)
+        </Form.Text>
         </Row>
-        <Button type="submit">Enviar</Button>
+        
+        <div className="d-grid gap-2">
+           <Button type="submit" variant="primary" size="lg" >Enviar</Button>
+        </div>
+       
       </Form>
     </section>
   );
