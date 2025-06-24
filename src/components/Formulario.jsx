@@ -1,53 +1,33 @@
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Swal from "sweetalert2";
+import { useForm } from "react-hook-form";
 
 const Formulario = () => {
-  const [dato, setDato] = useState({
-    nombre: "",
-    apellido: "",
-    dni: "",
-    email: "",
-  });
   const [datosCorrectos, setDatosCorrectos] = useState([]);
-  const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-    const form = e.currentTarget;
-
-    if (form.checkValidity() === false) {
-      // e.preventDefault();
-      e.stopPropagation();
-     
-      Swal.fire({
-        icon: "error",
-        title: "Datos incorrectos!",
-        text: "Volvé a ingresar los datos",
-      });
-    } else {
-      Swal.fire({
-        title: "Datos guardados correctamente",
-        text: `${dato.nombre}, ${dato.apellido}, ${dato.dni}, ${dato.email}`,
-        icon: "success",
-        draggable: true,
-      });
-    }
-
-    setDatosCorrectos([...datosCorrectos, dato]);
-    setDato({
-      nombre: "",
-      apellido: "",
-      dni: "",
-      email: "",
+  const agregarDatos = (datos) => {
+    Swal.fire({
+      title: "Datos guardados correctamente",
+      text: `${datos.nombre}, ${datos.apellido}, ${datos.dni}, ${datos.email}`,
+      icon: "success",
+      draggable: true,
     });
-    setValidated(false);
+
+    setDatosCorrectos([...datosCorrectos, datos]);
+    reset();
   };
 
   return (
     <section className="p-3 border rounded-3 fondoFormulario">
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit(agregarDatos)}>
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="validationCustom01">
             <Form.Label>Nombre *</Form.Label>
@@ -55,33 +35,44 @@ const Formulario = () => {
               required
               type="text"
               placeholder="Ingrese nombre"
-              value={dato.nombre}
-              name="nombre"
-              onChange={(e) =>
-                setDato({ ...dato, [e.target.name]: e.target.value })
-              }
+              {...register("nombre", {
+                required: "El nombre un dato obligatorio",
+                minLength: {
+                  value: 3,
+                  message: "El nombre debe tener 3 caracteres como minimo ",
+                },
+                maxLength: {
+                  value: 50,
+                  message: "El nombre debe tener 50 caracteres como máximo",
+                },
+              })}
             />
-            <Form.Control.Feedback>Dato correcto</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
-              Dato incorrecto
-            </Form.Control.Feedback>
+            <Form.Text className="text-danger">
+              {errors.nombre?.message}
+            </Form.Text>
           </Form.Group>
+
           <Form.Group as={Col} md="6" controlId="validationCustom02">
             <Form.Label>Apellido *</Form.Label>
             <Form.Control
               required
               type="text"
               placeholder="Ingrese apellido"
-              value={dato.apellido}
-              name="apellido"
-              onChange={(e) =>
-                setDato({ ...dato, [e.target.name]: e.target.value })
-              }
+              {...register("apellido", {
+                required: "El apellido un dato obligatorio",
+                minLength: {
+                  value: 3,
+                  message: "El apellido debe tener 3 caracteres como minimo ",
+                },
+                maxLength: {
+                  value: 50,
+                  message: "El apellido debe tener 50 caracteres como máximo",
+                },
+              })}
             />
-            <Form.Control.Feedback>Dato correcto</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
-              Dato incorrecto
-            </Form.Control.Feedback>
+            <Form.Text className="text-danger">
+              {errors.apellido?.message}
+            </Form.Text>
           </Form.Group>
         </Row>
 
@@ -92,16 +83,16 @@ const Formulario = () => {
               type="text"
               placeholder="Ingrese DNI"
               required
-              value={dato.dni}
-              name="dni"
-              onChange={(e) =>
-                setDato({ ...dato, [e.target.name]: e.target.value })
-              }
+              {...register("dni", {
+                required: "El Dni un dato obligatorio",
+
+                pattern: {
+                  value: /^[0-9]{7,8}$/,
+                  message: "Debe tener 7 u 8 dígitos",
+                },
+              })}
             />
-            <Form.Control.Feedback>Dato correcto</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
-              Dato incorrecto
-            </Form.Control.Feedback>
+            <Form.Text className="text-danger">{errors.dni?.message}</Form.Text>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="validationCustom04">
             <Form.Label>Email *</Form.Label>
@@ -109,16 +100,19 @@ const Formulario = () => {
               type="email"
               placeholder="Ingrese email"
               required
-              value={dato.email}
-              name="email"
-              onChange={(e) =>
-                setDato({ ...dato, [e.target.name]: e.target.value })
-              }
+              {...register("email", {
+                required: "El Email un dato obligatorio",
+
+                pattern: {
+                  value:
+                    /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
+                  message: "Email inválido",
+                },
+              })}
             />
-            <Form.Control.Feedback>Dato correcto</Form.Control.Feedback>
-            <Form.Control.Feedback type="invalid">
-              Dato invalido
-            </Form.Control.Feedback>
+            <Form.Text className="text-danger">
+              {errors.email?.message}
+            </Form.Text>
           </Form.Group>
           <Form.Text className="text-muted mt-3">
             (Campos obligatorios *)
