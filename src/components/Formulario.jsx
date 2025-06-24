@@ -13,15 +13,18 @@ const Formulario = () => {
   const [datosCorrectos, setDatosCorrectos] = useState([]);
   const [validated, setValidated] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-    const form = e.currentTarget;
-
+  const agregarDatos = (datos) => {
     if (form.checkValidity() === false) {
       // e.preventDefault();
       e.stopPropagation();
-     
+
       Swal.fire({
         icon: "error",
         title: "Datos incorrectos!",
@@ -36,19 +39,14 @@ const Formulario = () => {
       });
     }
 
-    setDatosCorrectos([...datosCorrectos, dato]);
-    setDato({
-      nombre: "",
-      apellido: "",
-      dni: "",
-      email: "",
-    });
+    setDatosCorrectos([...datosCorrectos, datos]);
+    reset();
     setValidated(false);
   };
 
   return (
     <section className="p-3 border rounded-3 fondoFormulario">
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form  onSubmit={handleSubmit(agregarDatos)}>
         <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="validationCustom01">
             <Form.Label>Nombre *</Form.Label>
