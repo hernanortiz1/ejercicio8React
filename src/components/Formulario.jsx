@@ -92,9 +92,7 @@ const Formulario = () => {
                 },
               })}
             />
-            <Form.Text className="text-danger">
-              {errors.dni?.message}
-            </Form.Text>
+            <Form.Text className="text-danger">{errors.dni?.message}</Form.Text>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="validationCustom04">
             <Form.Label>Email *</Form.Label>
@@ -106,7 +104,8 @@ const Formulario = () => {
                 required: "El Email un dato obligatorio",
 
                 pattern: {
-                  value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
+                  value:
+                    /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
                   message: "Email inválido",
                 },
               })}
