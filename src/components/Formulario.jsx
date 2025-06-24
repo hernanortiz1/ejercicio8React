@@ -48,7 +48,7 @@ const Formulario = () => {
               })}
             />
             <Form.Text className="text-danger">
-              {errors.inputNombre?.message}
+              {errors.nombre?.message}
             </Form.Text>
           </Form.Group>
 
@@ -71,7 +71,7 @@ const Formulario = () => {
               })}
             />
             <Form.Text className="text-danger">
-              {errors.inputApellido?.message}
+              {errors.apellido?.message}
             </Form.Text>
           </Form.Group>
         </Row>
@@ -93,7 +93,7 @@ const Formulario = () => {
               })}
             />
             <Form.Text className="text-danger">
-              {errors.inputDni?.message}
+              {errors.dni?.message}
             </Form.Text>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="validationCustom04">
@@ -106,13 +106,13 @@ const Formulario = () => {
                 required: "El Email un dato obligatorio",
 
                 pattern: {
-                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                  value: /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
                   message: "Email inválido",
                 },
               })}
             />
             <Form.Text className="text-danger">
-              {errors.inputEmail?.message}
+              {errors.email?.message}
             </Form.Text>
           </Form.Group>
           <Form.Text className="text-muted mt-3">
